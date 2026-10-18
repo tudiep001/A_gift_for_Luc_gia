@@ -1,0 +1,999 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gửi Lục Gia - 20/10 💗</title>
+
+<!-- Google Fonts: Allura + Cormorant Garamond -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --pink: #f4b8c9;
+    --rose: #d87998;
+    --deep-rose: #a84e70;
+    --cream: #fff9f5;
+    --text: #704b5b;
+    --gold: #d9b77e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: "Cormorant Garamond", serif;
+    color: var(--text);
+    background:
+        radial-gradient(ellipse at 15% 20%, #fff7fa 0%, transparent 40%),
+        radial-gradient(ellipse at 85% 80%, #f7dce7 0%, transparent 45%),
+        linear-gradient(135deg, #fbe9ef, #fff8f3, #f8dfe9);
+}
+
+button, input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+#effects {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 22px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(.98);
+    transition:
+        opacity .8s ease,
+        transform .8s ease,
+        visibility .8s;
+    z-index: 1;
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    z-index: 2;
+}
+
+.screen.leaving {
+    opacity: 0;
+    transform: translateY(-18px) scale(1.02);
+}
+
+.glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .42);
+    filter: blur(70px);
+    pointer-events: none;
+}
+
+.glow.one {
+    top: -130px;
+    left: -100px;
+}
+
+.glow.two {
+    bottom: -140px;
+    right: -100px;
+}
+
+/* Typography */
+.script {
+    font-family: "Allura", cursive;
+    font-weight: 400;
+}
+
+.eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--deep-rose);
+}
+
+/* Buttons */
+.btn {
+    border: 1px solid rgba(255,255,255,.8);
+    padding: 12px 27px;
+    border-radius: 40px;
+    color: white;
+    background: linear-gradient(135deg, #df8fab, #c86d91);
+    box-shadow: 0 8px 22px rgba(190, 93, 130, .23);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18px;
+    transition: transform .25s, box-shadow .25s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(190, 93, 130, .3);
+}
+
+.btn:active {
+    transform: scale(.97);
+}
+
+.btn.secondary {
+    background: rgba(255,255,255,.58);
+    color: var(--deep-rose);
+    border-color: #edc4d2;
+    box-shadow: none;
+}
+
+/* Screen 1: Cover */
+.cover-wrap {
+    width: min(100%, 440px);
+    text-align: center;
+    perspective: 1200px;
+}
+
+.cover-heading {
+    font-family: "Allura", cursive;
+    font-size: clamp(52px, 11vw, 78px);
+    line-height: 1.08;
+    color: var(--deep-rose);
+    text-shadow: 0 4px 20px rgba(214, 121, 152, .12);
+    margin: 14px 0 8px;
+}
+
+.cover-subtitle {
+    font-size: 19px;
+    font-style: italic;
+    margin-bottom: 32px;
+    color: #956a7c;
+}
+
+.envelope-scene {
+    width: min(100%, 340px);
+    height: 230px;
+    margin: 0 auto 28px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    top: 25px;
+    border-radius: 4px 4px 12px 12px;
+    background: #edb9c9;
+    box-shadow: 0 20px 45px rgba(155, 84, 112, .22);
+    transform-style: preserve-3d;
+    transition: transform .8s;
+}
+
+.envelope:hover {
+    transform: translateY(-5px) rotateX(3deg);
+}
+
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #f4cbd7, #e6a9be);
+    border-radius: 5px;
+}
+
+.envelope-flap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 115px;
+    background: #e6a7bc;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top;
+    z-index: 5;
+    transition: transform .9s ease;
+    filter: drop-shadow(0 3px 3px rgba(120, 55, 82, .08));
+}
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #f7d4df, #eab3c6);
+    clip-path: polygon(0 0, 50% 57%, 100% 0, 100% 100%, 0 100%);
+    z-index: 4;
+    border-radius: 4px 4px 12px 12px;
+}
+
+.envelope-letter {
+    position: absolute;
+    left: 8%;
+    top: 12%;
+    width: 84%;
+    height: 75%;
+    background: var(--cream);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    z-index: 2;
+    transition: transform .9s ease;
+}
+
+.envelope-letter .script {
+    font-size: 35px;
+    color: var(--deep-rose);
+}
+
+.envelope-letter span:last-child {
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-top: 4px;
+}
+
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .envelope-letter {
+    transform: translateY(-90px);
+    z-index: 6;
+}
+
+.seal {
+    position: absolute;
+    z-index: 7;
+    left: 50%;
+    top: 53%;
+    transform: translate(-50%, -50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff6f8;
+    background: radial-gradient(circle at 35% 30%, #edabc0, #c96f91);
+    box-shadow: 0 5px 12px rgba(135, 50, 80, .2);
+    font-size: 23px;
+    transition: opacity .3s;
+}
+
+.envelope.open .seal {
+    opacity: 0;
+}
+
+.password-area {
+    width: min(100%, 310px);
+    margin: 0 auto;
+}
+
+.password-label {
+    display: block;
+    font-size: 17px;
+    margin-bottom: 9px;
+}
+
+.password-row {
+    display: flex;
+    gap: 8px;
+}
+
+.password-row input {
+    min-width: 0;
+    flex: 1;
+    border: 1px solid #eac3d0;
+    border-radius: 30px;
+    background: rgba(255,255,255,.7);
+    padding: 12px 16px;
+    text-align: center;
+    letter-spacing: 5px;
+    color: var(--deep-rose);
+    outline: none;
+    transition: box-shadow .25s, border .25s;
+}
+
+.password-row input:focus {
+    border-color: #d987a4;
+    box-shadow: 0 0 0 4px rgba(217,135,164,.13);
+}
+
+.password-row .btn {
+    padding: 10px 20px;
+}
+
+.error {
+    min-height: 23px;
+    margin-top: 8px;
+    font-size: 15px;
+    color: #bd5575;
+}
+
+.hint {
+    font-size: 14px;
+    color: #a78391;
+    margin-top: 7px;
+}
+
+/* Common paper card */
+.paper-card {
+    position: relative;
+    width: min(100%, 700px);
+    max-height: calc(100vh - 44px);
+    overflow-y: auto;
+    padding: clamp(27px, 6vw, 55px);
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 7px 7px 18px 7px;
+    background:
+        linear-gradient(rgba(255,255,255,.85), rgba(255,249,245,.94)),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 31px,
+            rgba(221,171,185,.12) 32px
+        );
+    box-shadow:
+        0 25px 70px rgba(151, 82, 109, .14),
+        inset 0 0 30px rgba(245, 222, 225, .22);
+    text-align: center;
+}
+
+.paper-card::before {
+    content: "♡";
+    position: absolute;
+    top: 13px;
+    right: 20px;
+    font-size: 27px;
+    color: #e3a2b8;
+}
+
+.paper-card::after {
+    content: "";
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    width: 25px;
+    height: 25px;
+    border-left: 1px solid #e4bdc9;
+    border-top: 1px solid #e4bdc9;
+}
+
+.paper-card h2 {
+    font-family: "Allura", cursive;
+    font-weight: 400;
+    font-size: clamp(43px, 8vw, 65px);
+    line-height: 1.2;
+    color: var(--deep-rose);
+    margin: 8px 0 18px;
+}
+
+.paper-card p {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(18px, 3vw, 22px);
+    line-height: 1.8;
+    margin: 12px 0;
+}
+
+.paper-card .signature {
+    font-family: "Allura", cursive;
+    font-size: 37px;
+    color: var(--deep-rose);
+    margin-top: 22px;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #d78da7;
+    margin: 18px 0;
+}
+
+.divider::before, .divider::after {
+    content: "";
+    width: 55px;
+    height: 1px;
+    background: #e9c6d1;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+/* Screen 2: Introduction */
+.intro-icon {
+    font-size: 39px;
+    margin: 14px 0;
+    animation: gentleBeat 2.4s infinite;
+}
+
+.intro-note {
+    color: #a47b8b;
+    font-style: italic;
+}
+
+/* Screen 3: Wishes */
+.wishes-card {
+    width: min(100%, 740px);
+}
+
+.wish-line {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: writeIn .7s ease forwards;
+}
+
+.wish-line:nth-of-type(1) { animation-delay: .2s; }
+.wish-line:nth-of-type(2) { animation-delay: .55s; }
+.wish-line:nth-of-type(3) { animation-delay: .9s; }
+.wish-line:nth-of-type(4) { animation-delay: 1.25s; }
+.wish-line:nth-of-type(5) { animation-delay: 1.6s; }
+
+.wish-highlight {
+    color: #b75d7e;
+    font-weight: 600;
+}
+
+/* Screen 4: Video */
+.video-card {
+    width: min(100%, 780px);
+}
+
+.video-frame {
+    width: 100%;
+    overflow: hidden;
+    border: 7px solid rgba(255,255,255,.8);
+    border-radius: 13px;
+    background: #f2e4e9;
+    box-shadow: 0 12px 35px rgba(139, 76, 100, .15);
+    margin: 20px 0;
+}
+
+.video-frame video {
+    display: block;
+    width: 100%;
+    max-height: 52vh;
+    object-fit: contain;
+    background: #211920;
+}
+
+.video-caption {
+    font-style: italic;
+    color: #a47b8b;
+}
+
+.footer-note {
+    margin-top: 18px;
+    font-size: 15px;
+    color: #b28b9b;
+}
+
+/* Floating decorations */
+.float-heart {
+    position: fixed;
+    bottom: -40px;
+    z-index: 0;
+    pointer-events: none;
+    color: rgba(211, 111, 148, .55);
+    animation: floatUp linear forwards;
+}
+
+.petal {
+    position: fixed;
+    top: -25px;
+    z-index: 19;
+    pointer-events: none;
+    width: 12px;
+    height: 18px;
+    border-radius: 80% 15% 80% 15%;
+    background: linear-gradient(135deg, #f6cada, #e9a2ba);
+    opacity: .75;
+    animation: fall linear forwards;
+}
+
+.sparkle {
+    position: fixed;
+    z-index: 18;
+    pointer-events: none;
+    color: #e2bd78;
+    animation: sparkleOut .9s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0); opacity: 0; }
+    10% { opacity: .7; }
+    90% { opacity: .5; }
+    100% { transform: translateY(-110vh) rotate(35deg); opacity: 0; }
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) translateX(0) rotate(0); }
+    100% { transform: translateY(115vh) translateX(80px) rotate(540deg); }
+}
+
+@keyframes sparkleOut {
+    0% { opacity: 0; transform: scale(.2) rotate(0); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: scale(1.7) rotate(90deg); }
+}
+
+@keyframes gentleBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes writeIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+    .screen {
+        padding: 14px;
+    }
+
+    .paper-card {
+        padding: 34px 22px;
+        max-height: calc(100vh - 28px);
+    }
+
+    .envelope-scene {
+        transform: scale(.92);
+        margin-top: -5px;
+        margin-bottom: 15px;
+    }
+
+    .cover-subtitle {
+        margin-bottom: 20px;
+    }
+
+    .button-row .btn {
+        padding: 10px 18px;
+    }
+
+    .video-frame {
+        border-width: 4px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+<canvas id="effects"></canvas>
+
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<!-- SCREEN 1: COVER + PASSWORD -->
+<section class="screen active" id="screen1">
+    <div class="cover-wrap">
+        <div class="eyebrow">A little something for you</div>
+
+        <h1 class="cover-heading">Happy Women's Day</h1>
+        <p class="cover-subtitle">Một món quà nhỏ dành riêng cho Lục gia ♡</p>
+
+        <div class="envelope-scene" id="envelopeScene" aria-label="Phong bì thư">
+            <div class="envelope" id="envelope">
+                <div class="envelope-back"></div>
+
+                <div class="envelope-letter">
+                    <span class="script">Gửi ngôi nhà nhỏ đầy thương mến</span>
+                    <span>MỘT BỨC THƯ NHỎ</span>
+                </div>
+
+                <div class="envelope-flap"></div>
+                <div class="envelope-front"></div>
+                <div class="seal">♥</div>
+            </div>
+        </div>
+
+        <div class="password-area">
+            <label class="password-label" for="password">
+                Nhập mật khẩu để mở món quà nhé
+            </label>
+
+            <form class="password-row" id="passwordForm">
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="••••••"
+                    maxlength="20"
+                    autocomplete="off"
+                    aria-label="Mật khẩu"
+                    required
+                >
+                <button class="btn" type="submit">Mở thư ♡</button>
+            </form>
+
+            <div class="error" id="errorMessage" role="status"></div>
+            <p class="hint">Một bí mật nho nhỏ chỉ Lục gia biết thôi ✨</p>
+        </div>
+    </div>
+</section>
+
+<!-- SCREEN 2: INTRO -->
+<section class="screen" id="screen2">
+    <article class="paper-card">
+        <div class="eyebrow">A letter from my heart</div>
+        <div class="intro-icon">💌</div>
+
+        <h2>Một chút dịu dàng gửi Lục gia</h2>
+
+        <p>
+            Có những điều bình thường đôi khi lại trở nên thật đặc biệt,
+            chỉ vì người nhận nó là những người đặc biệt.
+        </p>
+
+        <p>
+            Hôm nay, vợ muốn dành một chút thời gian để gửi đến chồng và con gái
+            vài lời dễ thương, một chút yêu thương và một kỷ niệm nho nhỏ.
+        </p>
+
+        <div class="divider">♡</div>
+
+        <p class="intro-note">
+            Cả nhà cứ từ từ đọc nhé, món quà này là dành riêng cho mọi người.
+        </p>
+
+        <div class="button-row">
+            <button class="btn" onclick="goToScreen(3)">
+                Đọc lời chúc tiếp theo →
+            </button>
+        </div>
+    </article>
+</section>
+
+<!-- SCREEN 3: WISHES -->
+<section class="screen" id="screen3">
+    <article class="paper-card wishes-card">
+        <div class="eyebrow">20 tháng 10</div>
+        <h2>Chúc mái nhà nhỏ trong game của tôi luôn rạng rỡ</h2>
+
+        <p class="wish-line">
+            Chúc hai ba con có một ngày 20/10 thật <span class="wish-highlight">vui vẻ</span>,
+            nhận được thật nhiều yêu thương và những điều bất ngờ đáng yêu.
+        </p>
+
+        <p class="wish-line">
+            Mong rằng mỗi ngày của mọi người đều có những niềm vui nho nhỏ,
+            những người chân thành bên cạnh và thật nhiều lý do để mỉm cười.
+        </p>
+
+        <p class="wish-line">
+            Chúc Lục gia luôn tự tin, luôn xinh đẹp theo cách riêng của mình
+            và đủ mạnh mẽ để theo đuổi những điều mình mong muốn.
+        </p>
+
+        <p class="wish-line">
+            Dù cuộc sống có bận rộn đến đâu, cũng đừng quên dành thời gian
+            chăm sóc bản thân và trân trọng chính mình nhé.
+        </p>
+
+        <p class="wish-line wish-highlight">
+            Mong những điều dịu dàng nhất sẽ luôn tìm đến cả nhà. ♡
+        </p>
+
+        <div class="divider">✧ ♡ ✧</div>
+
+        <p class="signature">Thương gửi Lục gia,</p>
+
+        <div class="button-row">
+            <button class="btn secondary" onclick="goToScreen(2)">
+                ← Đọc lại
+            </button>
+            <button class="btn" onclick="goToScreen(4)">
+                Một chút kỷ niệm nữa nhé →
+            </button>
+        </div>
+    </article>
+</section>
+
+<!-- SCREEN 4: MEMORY VIDEO -->
+<section class="screen" id="screen4">
+    <article class="paper-card video-card">
+        <div class="eyebrow">Little moments, precious memories</div>
+        <h2>Một chút kỷ niệm của chúng mình</h2>
+
+        <p class="video-caption">
+            Có những khoảnh khắc nhỏ bé, nhưng khi nhớ lại vẫn khiến ta mỉm cười.
+        </p>
+
+        <div class="video-frame">
+            <video
+                id="memoryVideo"
+                controls
+                playsinline
+                preload="metadata"
+                style="width: 100%; max-height: 52vh; object-fit: contain; background: #211920;"
+            >
+                <source
+                    src="https://res.cloudinary.com/rjqpnxbq/video/upload/v1792334142/1018.mp4"
+                    type="video/mp4"
+                >
+                Trình duyệt của bạn chưa hỗ trợ phát video.
+            </video>
+        </div>
+
+        <p>
+            Cảm ơn mọi người vì đã góp mặt trong những khoảnh khắc đáng nhớ ấy.
+            Mong rằng chúng ta sẽ còn có thêm thật nhiều kỷ niệm đẹp.
+        </p>
+
+        <p class="signature">Happy 20/10, with love ♡</p>
+
+        <div class="button-row">
+            <button class="btn secondary" onclick="goToScreen(3)">
+                ← Trở lại lời chúc
+            </button>
+            <button class="btn" onclick="restartCard()">
+                Xem lại từ đầu ↺
+            </button>
+        </div>
+
+        <div class="footer-note">
+            Made with love, just for you.
+        </div>
+    </article>
+</section>
+
+<script>
+/* ==============================
+   SCREEN TRANSITIONS
+============================== */
+const screens = [...document.querySelectorAll(".screen")];
+const envelope = document.getElementById("envelope");
+const passwordInput = document.getElementById("password");
+const errorMessage = document.getElementById("errorMessage");
+const memoryVideo = document.getElementById("memoryVideo");
+
+let currentScreen = 1;
+let envelopeOpened = false;
+
+function goToScreen(number) {
+    if (number < 1 || number > screens.length) return;
+
+    screens.forEach((screen, index) => {
+        screen.classList.remove("active", "leaving");
+
+        if (index + 1 === number) {
+            screen.classList.add("active");
+        }
+    });
+
+    currentScreen = number;
+
+    if (number !== 4) {
+        memoryVideo.pause();
+    }
+
+    if (number === 3) {
+        const wishLines = document.querySelectorAll(".wish-line");
+        wishLines.forEach(line => {
+            line.style.animation = "none";
+            void line.offsetWidth;
+            line.style.animation = "";
+        });
+    }
+
+    burstHearts();
+}
+
+function restartCard() {
+    memoryVideo.pause();
+    memoryVideo.currentTime = 0;
+
+    envelope.classList.remove("open");
+    envelopeOpened = false;
+    passwordInput.value = "";
+    errorMessage.textContent = "";
+
+    goToScreen(1);
+}
+
+document.getElementById("envelopeScene").addEventListener("click", () => {
+    envelopeOpened = !envelopeOpened;
+    envelope.classList.toggle("open", envelopeOpened);
+    createSparkles(window.innerWidth / 2, window.innerHeight / 2);
+});
+
+document.getElementById("passwordForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const password = passwordInput.value.trim();
+
+    if (password === "20102026") {
+        errorMessage.textContent = "";
+        envelope.classList.add("open");
+        createSparkles(window.innerWidth / 2, window.innerHeight / 2);
+
+        setTimeout(() => {
+            goToScreen(2);
+        }, 650);
+    } else {
+        errorMessage.textContent = "Hình như chưa đúng rồi, thử lại nhé ♡";
+        passwordInput.value = "";
+        passwordInput.focus();
+
+        envelope.animate(
+            [
+                { transform: "translateX(0)" },
+                { transform: "translateX(-7px)" },
+                { transform: "translateX(7px)" },
+                { transform: "translateX(-4px)" },
+                { transform: "translateX(0)" }
+            ],
+            { duration: 320 }
+        );
+    }
+});
+
+/* ==============================
+   FLOATING HEARTS
+============================== */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "float-heart";
+    heart.textContent = ["♡", "♥", "❤", "✧"][Math.floor(Math.random() * 4)];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (12 + Math.random() * 20) + "px";
+    heart.style.animationDuration = (8 + Math.random() * 9) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 18000);
+}
+
+setInterval(createHeart, 900);
+
+/* ==============================
+   FALLING PETALS
+============================== */
+function createPetal() {
+    const petal = document.createElement("div");
+    petal.className = "petal";
+
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.animationDuration = (7 + Math.random() * 8) + "s";
+    petal.style.animationDelay = (Math.random() * 1.5) + "s";
+    petal.style.opacity = (0.35 + Math.random() * 0.5).toString();
+    petal.style.transform = `rotate(${Math.random() * 180}deg)`;
+
+    document.body.appendChild(petal);
+
+    setTimeout(() => petal.remove(), 17000);
+}
+
+setInterval(createPetal, 1400);
+
+/* ==============================
+   SPARKLES
+============================== */
+function createSparkles(x, y) {
+    for (let i = 0; i < 16; i++) {
+        const sparkle = document.createElement("span");
+        sparkle.className = "sparkle";
+        sparkle.textContent = Math.random() > 0.5 ? "✦" : "✧";
+        sparkle.style.left = (x + (Math.random() - 0.5) * 180) + "px";
+        sparkle.style.top = (y + (Math.random() - 0.5) * 120) + "px";
+        sparkle.style.fontSize = (10 + Math.random() * 14) + "px";
+
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+    }
+}
+
+document.addEventListener("click", event => {
+    if (event.target.closest("button")) {
+        createSparkles(event.clientX, event.clientY);
+    }
+});
+
+/* ==============================
+   CANVAS AMBIENT PARTICLES
+============================== */
+const canvas = document.getElementById("effects");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let width = 0;
+let height = 0;
+let lastFrame = 0;
+
+function resizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    particles = Array.from({ length: Math.min(65, Math.floor(width / 13)) }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.8 + 0.4,
+        speed: Math.random() * 0.22 + 0.06,
+        alpha: Math.random() * 0.45 + 0.1,
+        phase: Math.random() * Math.PI * 2
+    }));
+}
+
+function animateParticles(timestamp) {
+    requestAnimationFrame(animateParticles);
+
+    if (timestamp - lastFrame < 30) return;
+    lastFrame = timestamp;
+
+    ctx.clearRect(0, 0, width, height);
+
+    particles.forEach(p => {
+        p.y -= p.speed;
+        p.phase += 0.012;
+
+        if (p.y < -5) {
+            p.y = height + 5;
+            p.x = Math.random() * width;
+        }
+
+        const alpha = p.alpha * (0.65 + Math.sin(p.phase) * 0.35);
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(211, 145, 170, ${alpha})`;
+        ctx.fill();
+    });
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+requestAnimationFrame(animateParticles);
+
+/* Start with a few floating hearts */
+for (let i = 0; i < 7; i++) {
+    setTimeout(createHeart, i * 350);
+}
+</script>
+</body>
+</html>
